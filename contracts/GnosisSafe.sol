@@ -5,6 +5,7 @@ import "./base/FallbackManager.sol";
 import "./common/MasterCopy.sol";
 import "./common/SignatureDecoder.sol";
 import "./common/SecuredTokenTransfer.sol";
+import "./interfaces/IGnosisSafe.sol";
 import "./interfaces/ISignatureValidator.sol";
 import "./external/SafeMath.sol";
 
@@ -13,7 +14,7 @@ import "./external/SafeMath.sol";
 /// @author Richard Meissner - <richard@gnosis.io>
 /// @author Ricardo Guilherme Schmidt - (Status Research & Development GmbH) - Gas Token Payment
 contract GnosisSafe
-    is MasterCopy, ModuleManager, OwnerManager, SignatureDecoder, SecuredTokenTransfer, ISignatureValidatorConstants, FallbackManager {
+    is IGnosisSafe, MasterCopy, ModuleManager, OwnerManager, SignatureDecoder, SecuredTokenTransfer, ISignatureValidatorConstants, FallbackManager {
 
     using SafeMath for uint256;
 
