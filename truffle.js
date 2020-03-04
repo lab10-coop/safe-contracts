@@ -39,6 +39,13 @@ module.exports = {
       },
       network_id: '1',
       gasPrice: 25000000000, // 25 Gwei
+    },
+    artis_tau1: {
+      provider: () => {
+        return new HDWalletProvider(mnemonic, 'https://rpc.tau1.artis.network')
+      },
+      network_id: '246785',
+      gasPrice: 100000000000, // 100 Gwei
     }
   },
   solc: {
