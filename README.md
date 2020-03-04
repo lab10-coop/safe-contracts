@@ -4,6 +4,19 @@ Gnosis Safe Contracts
 [![npm version](https://badge.fury.io/js/%40gnosis.pm%2Fsafe-contracts.svg)](https://badge.fury.io/js/%40gnosis.pm%2Fsafe-contracts)
 [![Build Status](https://travis-ci.org/gnosis/safe-contracts.svg?branch=development)](https://travis-ci.org/gnosis/safe-contracts)
 
+lab10 changes
+-------------
+
+* added npm script for flattening
+* added optional Beacon contract which makes it easier for clients to know when they're added as owner to some Safe
+
+The Beacon contract idea [originates from burner wallet](https://github.com/austintgriffith/burner-wallet/blob/master/contracts/SafeBeacon/SafeBeacon.sol).    
+The original GnosisSafe contract already had a size slightly below what [EIP-170](https://eips.ethereum.org/EIPS/eip-170) allows when compiled without optimization. After turning on optimization, there was enough room for adding this code. Should be safe since it was suggested by Richard.  
+All Safe contracts can share the same Beacon contract.  
+
+Note that only the method `addOwnerWithThreshold()` triggers a beacon event.  
+No such event is triggered for owners added through the initial `setupOwners()` call or through `swapOwner()`.
+
 Install
 -------
 ### Install requirements with npm:

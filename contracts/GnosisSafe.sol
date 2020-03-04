@@ -99,6 +99,24 @@ contract GnosisSafe
         }
     }
 
+    /// same as setup(), but additional registers a beacon contract with the OwnerManager module
+    function setupWithBeacon(
+        address[] calldata _owners,
+        uint256 _threshold,
+        address to,
+        bytes calldata data,
+        address fallbackHandler,
+        address paymentToken,
+        uint256 payment,
+        address payable paymentReceiver,
+        address beaconContract
+    )
+    external
+    {
+        setupBeacon(beaconContract);
+        this.setup(_owners, _threshold, to, data, fallbackHandler, paymentToken, payment, paymentReceiver);
+    }
+
     /// @dev Allows to execute a Safe transaction confirmed by required number of owners and then pays the account that submitted the transaction.
     ///      Note: The fees are always transfered, even if the user transaction fails.
     /// @param to Destination address of Safe transaction.

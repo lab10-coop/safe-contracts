@@ -1,5 +1,6 @@
 pragma solidity >=0.5.0 <0.7.0;
 import "../common/SelfAuthorized.sol";
+import "../interfaces/IBeacon.sol";
 
 /// @title OwnerManager - Manages a set of owners and a threshold to perform actions.
 /// @author Stefan George - <stefan@gnosis.pm>
@@ -15,6 +16,9 @@ contract OwnerManager is SelfAuthorized {
     mapping(address => address) internal owners;
     uint256 ownerCount;
     uint256 internal threshold;
+
+    // if set, adding owners will trigger notifications on the beacon contract
+    IBeacon internal beacon;
 
     /// @dev Setup function sets initial storage of contract.
     /// @param _owners List of Safe owners.
@@ -45,6 +49,13 @@ contract OwnerManager is SelfAuthorized {
         threshold = _threshold;
     }
 
+    // Set beacon contract
+    function setupBeacon(address beaconContractAddress)
+        internal
+    {
+        beacon = IBeacon(beaconContractAddress);
+    }
+
     /// @dev Allows to add a new owner to the Safe and update the threshold at the same time.
     ///      This can only be done via a Safe transaction.
     /// @param owner New owner address.
@@ -61,6 +72,12 @@ contract OwnerManager is SelfAuthorized {
         owners[SENTINEL_OWNERS] = owner;
         ownerCount++;
         emit AddedOwner(owner);
+
+        // Trigger the beacon if it's set
+        if(address(beacon) != address(0)) {
+            beacon.update(owner, address(this), 1);
+        }
+
         // Change threshold if threshold was changed.
         if (threshold != _threshold)
             changeThreshold(_threshold);
@@ -161,5 +178,13 @@ contract OwnerManager is SelfAuthorized {
             index ++;
         }
         return array;
+    }
+
+    function getBeaconAddress()
+        public
+        view
+        returns (address)
+    {
+        return address(beacon);
     }
 }
