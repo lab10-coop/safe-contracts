@@ -7,3 +7,4 @@ rm -r $DEST/*
 
 ./node_modules/.bin/poa-solidity-flattener "contracts/GnosisSafe.sol" $DEST
 ./node_modules/.bin/poa-solidity-flattener "contracts/proxies/ProxyFactory.sol" $DEST
+./node_modules/.bin/poa-solidity-flattener "contracts/common/SafeBeacon.sol" $DEST
